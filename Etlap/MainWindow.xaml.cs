@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Math.EC.Multiplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,14 +48,32 @@ namespace Etlap
 			{
 				double multiplier = int.Parse(pricePercent.Text);
 				multiplier = (multiplier / 100) + 1;
-				etlapService.UpdateAllMultiply(multiplier);
+				MessageBoxResult result = 
+					MessageBox.Show($"Biztos hogy szeretné szorozni az összes étel árát {multiplier} értékkel?", "Biztos?", MessageBoxButton.YesNo);
+				if(result == MessageBoxResult.Yes)
+				{
+					etlapService.UpdateAllMultiply(multiplier);
+				}
+				else
+				{
+					return;
+				}
 				Read();
 			}
 			else
 			{
 				double multiplier = int.Parse(pricePercent.Text);
 				multiplier = (multiplier / 100) + 1;
-				etlapService.UpdateOneMultiply(multiplier, selected.Id);
+				MessageBoxResult result =
+					MessageBox.Show($"Biztos hogy szeretné szorozni a {selected.Name} étel árát {multiplier} értékkel?", "Biztos?", MessageBoxButton.YesNo);
+				if(result == MessageBoxResult.Yes)
+				{
+					etlapService.UpdateOneMultiply(multiplier, selected.Id);
+				}
+				else
+				{
+					return;
+				}
 				Read();
 			}
 		}
@@ -64,14 +83,32 @@ namespace Etlap
 			Etlap selected = menuTable.SelectedItem as Etlap;
 			if (selected == null)
 			{
-				int value = int.Parse(pricePercent.Text);
-				etlapService.UpdateAllAdd(value);
+				int value = int.Parse(priceHUF.Text);
+				MessageBoxResult result =
+					MessageBox.Show($"Biztos hogy szeretné növelni az összes étel árát {value} értékkel?", "Biztos?", MessageBoxButton.YesNo);
+				if(result == MessageBoxResult.Yes)
+				{
+					etlapService.UpdateAllAdd(value);
+				}
+				else
+				{
+					return;
+				}
 				Read();
 			}
 			else
 			{
-				int value = int.Parse(pricePercent.Text);
-				etlapService.UpdateOneMultiply(value, selected.Id);
+				int value = int.Parse(priceHUF.Text);
+				MessageBoxResult result =
+					MessageBox.Show($"Biztos hogy szeretné növelni a {selected.Name} étel árát {value} értékkel?", "Biztos?", MessageBoxButton.YesNo);
+				if(result == MessageBoxResult.Yes)
+				{
+					etlapService.UpdateOneMultiply(value, selected.Id);
+				}
+				else
+				{
+					return;
+				}
 				Read();
 			}
 		}
