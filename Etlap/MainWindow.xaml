@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Etlap"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="MainWindow" Height="450" Width="390">
+    <DockPanel>
+		<StackPanel DockPanel.Dock="Top" Orientation="Vertical" HorizontalAlignment="Left" Margin="0,0,0,10">
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+				<Button x:Name="Add_Button" Content="Hozzáad" Width="130" />
+				<Button x:Name="Delete_Button" Content="Törlés" Width="130" Margin="10,0,0,0"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+				<TextBox x:Name="pricePercent" Width="140"/>
+				<Label Content="%"/>
+				<Button x:Name="pricePercentApply" Content="Emelés" Width="100"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal">
+				<TextBox x:Name="priceHUF" Width="140"/>
+				<Label Content="Ft"/>
+				<Button x:Name="priceHUFApply" Content="Emelés" Width="100"/>
+			</StackPanel>
+		</StackPanel>
+		<DataGrid ItemsSource="{d:SampleData ItemCount=5}"/>
+	</DockPanel>
 </Window>
