@@ -1,0 +1,34 @@
+﻿<Window x:Class="Etlap.EtlapForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Etlap"
+        mc:Ignorable="d"
+        Title="EtlapForm" Height="326" Width="313">
+    <DockPanel Margin="0,10,10,0">
+		<StackPanel Orientation="Vertical" DockPanel.Dock="Top" HorizontalAlignment="Right">
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+				<Label Content="Név" Width="80" HorizontalContentAlignment="Right"/>
+				<TextBox Width="200" x:Name="tbName"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+				<Label Content="Leírás" Width="80" HorizontalContentAlignment="Right"/>
+				<TextBox TextWrapping="Wrap" Height="150" Width="200" x:Name="tbDesc"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+				<Label Content="Kategória" Width="80" HorizontalContentAlignment="Right"/>
+				<ComboBox Width="200" x:Name="cbCategory">
+					<ComboBoxItem Content="előétel"/>
+					<ComboBoxItem Content="főétel"/>
+					<ComboBoxItem Content="desszert"/>
+				</ComboBox>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+				<Label Content="Ár" Width="80" HorizontalContentAlignment="Right"/>
+				<TextBox Width="200" x:Name="tbPrice"/>
+			</StackPanel>
+			<Button Height="25" Content="Hozzáad" x:Name="addButton" Click="btnAdd_Click"/>
+		</StackPanel>
+    </DockPanel>
+</Window>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Etlap
 {
-    class EtlapService
+    public class EtlapService
     {
 		MySqlConnection connection;
 
@@ -22,7 +22,7 @@ namespace Etlap
 			connection = new MySqlConnection(builder.ConnectionString);
 		}
 
-		public bool Add(Etlap etlap)
+		public bool AddEtlap(Etlap etlap)
 		{
 			OpenConnection();
 			string sql = "INSERT INTO etlap (nev, leiras, ar, kategoria) VALUES (@name, @desc, @price, @category)";
@@ -37,6 +37,64 @@ namespace Etlap
 			CloseConnection();
 			return affectedRows == 1;
 		}
+
+
+
+		public bool UpdateOneMultiply(double multiplier, int id)
+		{
+			OpenConnection();
+			string sql = "UPDATE etlap SET ar = ar * @multiplier WHERE id = @id";
+			MySqlCommand cmd = connection.CreateCommand();
+			cmd.CommandText = sql;
+			cmd.Parameters.AddWithValue("@multiplier", multiplier);
+			cmd.Parameters.AddWithValue("@id", id);
+
+			int affectedRows = cmd.ExecuteNonQuery();
+			CloseConnection();
+			return affectedRows == 1;
+		}
+
+		public bool UpdateAllMultiply(double multiplier)
+		{
+			OpenConnection();
+			Etlap etlap = new Etlap();
+			string sql = "UPDATE etlap SET ar = ar * @multiplier";
+			MySqlCommand cmd = connection.CreateCommand();
+			cmd.CommandText = sql;
+			cmd.Parameters.AddWithValue("@multiplier", multiplier);
+			int affectedRows = cmd.ExecuteNonQuery();
+			CloseConnection();
+			return affectedRows == 1;
+		}
+
+		public bool UpdateOneAdd(int value, int id)
+		{
+			OpenConnection();
+			string sql = "UPDATE etlap SET ar = ar + @value WHERE id = @id";
+			MySqlCommand cmd = connection.CreateCommand();
+			cmd.CommandText = sql;
+			cmd.Parameters.AddWithValue("@value", value);
+			cmd.Parameters.AddWithValue("@id", id);
+
+			int affectedRows = cmd.ExecuteNonQuery();
+			CloseConnection();
+			return affectedRows == 1;
+		}
+
+		public bool UpdateAllAdd(int value)
+		{
+			OpenConnection();
+			Etlap etlap = new Etlap();
+			string sql = "UPDATE etlap SET ar = ar + @value";
+			MySqlCommand cmd = connection.CreateCommand();
+			cmd.CommandText = sql;
+			cmd.Parameters.AddWithValue("@value", value);
+			int affectedRows = cmd.ExecuteNonQuery();
+			CloseConnection();
+			return affectedRows == 1;
+		}
+
+		
 
 		public bool Delete(int id)
 		{

@@ -21,10 +21,92 @@ namespace Etlap
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MainWindow()
+		EtlapService etlapService;
+		
+		public MainWindow(EtlapService etlapService)
 		{
 			InitializeComponent();
+			this.etlapService = etlapService;
+			Read();
 		}
 
+		private void Create_Click(object sender, RoutedEventArgs e)
+		{
+			EtlapForm form = new EtlapForm(etlapService);
+			form.Closed += (_, _) =>
+			{
+				Read();
+			};
+			form.ShowDialog();
+		}
+
+		private void pricePercentClick(object sender, RoutedEventArgs e)
+		{
+			Etlap selected = menuTable.SelectedItem as Etlap;
+			if (selected == null)
+			{
+				double multiplier = int.Parse(pricePercent.Text);
+				multiplier = (multiplier / 100) + 1;
+				etlapService.UpdateAllMultiply(multiplier);
+				Read();
+			}
+			else
+			{
+				double multiplier = int.Parse(pricePercent.Text);
+				multiplier = (multiplier / 100) + 1;
+				etlapService.UpdateOneMultiply(multiplier, selected.Id);
+				Read();
+			}
+		}
+
+		private void priceHUFClick(object sender, RoutedEventArgs e)
+		{
+			Etlap selected = menuTable.SelectedItem as Etlap;
+			if (selected == null)
+			{
+				int value = int.Parse(pricePercent.Text);
+				etlapService.UpdateAllAdd(value);
+				Read();
+			}
+			else
+			{
+				int value = int.Parse(pricePercent.Text);
+				etlapService.UpdateOneMultiply(value, selected.Id);
+				Read();
+			}
+		}
+
+		private void Delete_Click(object sender, RoutedEventArgs e)
+		{
+			Etlap selected = menuTable.SelectedItem as Etlap;
+			if (selected == null)
+			{
+				MessageBox.Show("Törléshez előbb válasszon ki menüt!");
+				return;
+			}
+			MessageBoxResult selectedButton =
+				MessageBox.Show($"Biztos, hogy törölni szeretné az alábbi menüt: {selected.Name}?",
+					"Biztos?", MessageBoxButton.YesNo);
+			if (selectedButton == MessageBoxResult.Yes)
+			{
+				if (etlapService.Delete(selected.Id))
+				{
+					MessageBox.Show("Sikeres törlés!");
+				}
+				else
+				{
+					MessageBox.Show("Hiba történt a törlés során, a megadott elem nem található");
+				}
+				Read();
+			}
+		}
+
+
+		private void Read()
+		{
+			menuTable.ItemsSource = etlapService.GetEtlap();
+		}
+
+		
 	}
 }
